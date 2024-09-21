@@ -7,5 +7,4 @@ public class Admin extends Person {
         this.password = password;
     }
 
-
 }
