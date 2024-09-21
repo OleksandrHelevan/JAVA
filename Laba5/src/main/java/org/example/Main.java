@@ -18,7 +18,7 @@ public class Main {
             Statement statement = connection.createStatement();
             int result = statement.executeUpdate
                     ("INSERT INTO client(client_id, name, surname, middle_name, date_of_birthday, phone_number)\n" +
-                    "    values(1,'Vasyl','Vasylenko','Vasylovich','1994-02-11','+380989447238')");
+                    "    values(2,'Roman','Romanenko','Romanovych','1989-12-04','+380689843238')");
     }
     catch (Exception e) {
         System.out.println(e);
