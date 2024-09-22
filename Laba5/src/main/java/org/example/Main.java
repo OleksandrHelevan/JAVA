@@ -1,27 +1,30 @@
 package org.example;
 
-import java.sql.*;
-import java.util.Properties;
+
+import java.util.*;
 
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    static String userName = "Oleksandr";
+    static String password = "7=TURK?upxxjKzg";
+    public static void main(String[] args) throws Exception {
 
-        String url = "jdbc:mysql://localhost:3306/taxi_db";
-        String user = "Oleksandr";
-        String password = "7=TURK?upxxjKzg";
-        Properties props = new Properties();
-        props.put("user", user);
-        props.put("password", password);
-        try {
-            Connection connection = MySQLConnector.getConnection(url, props);
-            Statement statement = connection.createStatement();
-            int result = statement.executeUpdate
-                    ("INSERT INTO client(client_id, name, surname, middle_name, date_of_birthday, phone_number)\n" +
-                    "    values(2,'Roman','Romanenko','Romanovych','1989-12-04','+380689843238')");
-    }
-    catch (Exception e) {
-        System.out.println(e);
+        Properties prop = new Properties();
+        prop.setProperty("user", userName);
+        prop.setProperty("password", password);
+
+        Authenticator menu = new Authenticator();
+        Client client = menu.authenticate(prop, "Oleksandr", "12345678");
+                client.reg();
+                client.printOrders();
+        Admin admin = new Admin(1, userName,"Helevan", password,
+                "Vitaliyovich","2006-03-15");
+        List<Client> clients = admin.getListOfClient();
+        List<Client> sortedClients = clients.stream()
+                .sorted(Comparator.comparingInt(Client::getOrdersNumber).reversed())
+                .toList();
+        for (Client c : sortedClients) {
+            System.out.println(c + " " + c.getOrdersNumber());
         }
     }
 }

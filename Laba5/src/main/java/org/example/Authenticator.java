@@ -1,41 +1,30 @@
 package org.example;
 
-import lombok.Getter;
-
 import java.sql.*;
-import java.util.List;
 import java.util.Properties;
 
-@Getter
-public class Driver extends Person {
-    double drivingExperience;
-    String phoneNumber;
-    List<Order> orders;
-
-    public Driver(int id, String name, String surname, String middleName, String dateOfBirth, double drivingExperience, String phoneNumber) {
-        super(id, name, surname, middleName, dateOfBirth);
-        this.phoneNumber = phoneNumber;
-        this.drivingExperience = drivingExperience;
+public class Authenticator {
+    public Authenticator() {
     }
 
-   static public Driver DriverFromDB(int id, Properties properties) throws Exception {
+    public Client authenticate(Properties properties, String name, String password) throws Exception {
         try (Connection connection = MySQLConnector.getConnection(properties);
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM driver;")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM client")) {
 
             ResultSetMetaData metaData = resultSet.getMetaData();
             int columnCount = metaData.getColumnCount();
 
             while (resultSet.next()) {
 
-                if (resultSet.getInt(1) == id) {
-                    return new Driver(
+                if (resultSet.getString(2).equals(name) && resultSet.getString(7).equals(password)) {
+                    return new Client(
                             resultSet.getInt(1),
                             resultSet.getString(2),
                             resultSet.getString(3),
                             resultSet.getString(4),
                             resultSet.getString(5),
-                            resultSet.getDouble(6),
+                            resultSet.getString(6),
                             resultSet.getString(7)
                     );
                 }
