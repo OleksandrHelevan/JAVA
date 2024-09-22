@@ -1,5 +1,8 @@
 package org.example;
 
+import lombok.Getter;
+
+@Getter
 public class Order {
     int id;
     double distance;

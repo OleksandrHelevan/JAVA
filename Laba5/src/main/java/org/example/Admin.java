@@ -2,9 +2,9 @@ package org.example;
 
 import java.sql.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+
+import org.example.Car;
 
 public class Admin extends Person {
     String password;
@@ -73,4 +73,47 @@ public class Admin extends Person {
         }
     }
 
+public Map<String, Double> getCars() throws Exception {
+    Properties properties = new Properties();
+    properties.setProperty("user", "Oleksandr");
+    properties.setProperty("password", "7=TURK?upxxjKzg");
+
+    Map<String, Double> map = new HashMap<>();
+
+    try (Connection connection = MySQLConnector.getConnection(properties);
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT * FROM `car`;")) {
+
+        while (resultSet.next()) {
+
+            Car car = new Car(
+            resultSet.getInt(1),
+            resultSet.getString(2),
+            resultSet.getString(3),
+            resultSet.getString(4),
+            resultSet.getString(5),
+            resultSet.getString(6),
+            resultSet.getString(7),
+            resultSet.getInt(8),
+            resultSet.getInt(9),
+            Driver.DriverFromDB(resultSet.getInt(10),properties)
+            );
+            Double buff = car.getOrders().stream()
+                    .mapToDouble(Order::getDistance)
+                    .sum();
+            map.put(car.getCar(), buff);
+        }
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        throw new Exception("DB problem", e);
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+    return map;
 }
+
+
+
+
+}
+

@@ -8,20 +8,25 @@
     <version>3.9.9</version>
 
     <properties>
+
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     </properties>
 
     <repositories>
+
         <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
         </repository>
+
     </repositories>
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -31,6 +36,7 @@
                     <target>22</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -55,20 +61,24 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 
     <dependencies>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.33</version>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
+            <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
 </project>

@@ -10,6 +10,9 @@ public class Person {
     String middleName;
     String dateOfBirth;
 
+    public Person(int id) {
+        this.id = id;
+    }
     public Person(int id,String name, String surname, String middleName, String dateOfBirth) {
         this.id = id;
         this.name = name;

@@ -3,6 +3,9 @@ package org.example;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 public class Car {
@@ -33,5 +36,15 @@ public class Car {
         this.driver = driver;
     }
 
+    public List<Order> getOrders() throws Exception {
+        List<Order> orders = new ArrayList<>();
+        orders = driver.getOrders();
+        return orders;
+    }
+
+
+public String getCar(){
+        return brand + " " + model;
+}
 
 }
