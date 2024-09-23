@@ -66,7 +66,7 @@ public class Admin extends Person {
             }
             return clients;
         } catch (SQLException e) {
-            e.printStackTrace();
+           System.out.println(e.getMessage());
             throw new Exception("Помилка при підключенні до бази даних", e);
         } catch (Exception e) {
             throw new RuntimeException(e);
