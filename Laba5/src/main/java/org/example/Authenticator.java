@@ -4,16 +4,14 @@ import java.sql.*;
 import java.util.Properties;
 
 public class Authenticator {
-    public Authenticator() {
-    }
+
+
+    public Authenticator() {}
 
     public Client authenticate(Properties properties, String name, String password) throws Exception {
         try (Connection connection = MySQLConnector.getConnection(properties);
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM client")) {
-
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnCount = metaData.getColumnCount();
 
             while (resultSet.next()) {
 
@@ -30,7 +28,7 @@ public class Authenticator {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             throw new Exception("Помилка при підключенні до бази даних", e);
         }
         return null;

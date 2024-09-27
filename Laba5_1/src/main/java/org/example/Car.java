@@ -1,6 +1,11 @@
 package org.example;
 
+import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
 public class Car {
     int id;
     String brand;
@@ -27,6 +32,16 @@ public class Car {
         this.passengers = passengers;
         this.cargo = cargo;
         this.driver = driver;
+    }
+
+    public List<Order> getOrders() throws Exception {
+        List<Order> orders = new ArrayList<>();
+        orders = driver.getOrders();
+        return orders;
+    }
+
+    public String getCar(){
+        return brand + " " + model;
     }
 
 }

@@ -7,6 +7,39 @@ import java.sql.*;
 
 public class Authorizer {
 
+
+    public ClientDAO register(ClientDTO client) {
+        String configFile = "C:\\Users\\Admin\\Desktop\\JAVA\\Laba5_1\\src\\main\\resources\\config.properties";
+        try {
+            Connection connection = ConnectorDB.getConnection(configFile);
+            String query = "INSERT INTO client(name,surname,middle_name, date_of_birthday,phone_number, password)" +
+                    " VALUES (?,?,?,?,?,?)";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            try {
+                preparedStatement.setString(1, client.getName());
+                preparedStatement.setString(2, client.getSurname());
+                preparedStatement.setString(3, client.getMiddleName());
+                preparedStatement.setString(4, client.getDateOfBirth());
+                preparedStatement.setString(5, client.getPhoneNumber());
+                preparedStatement.setString(6, client.getPassword());
+
+                int result = preparedStatement.executeUpdate();
+                System.out.println("Registration is done " + result);
+
+                return new ClientDAO(client);
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+
     public AdminDAO adminAuthorization(String name, String password) throws Exception {
         String configFilename = "C:\\Users\\Admin\\Desktop\\JAVA\\Laba5_1\\src\\main\\resources\\config.properties";
 
@@ -57,7 +90,9 @@ public class Authorizer {
                             resultSet.getString(6),
                             resultSet.getString(7)
                     );
-                    return new ClientDAO(client);
+                    ClientDAO clientDao = new ClientDAO(client);
+                    clientDao.setOrderHistory();
+                    return clientDao;
                 }
             }
         } catch (SQLException e) {
