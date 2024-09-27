@@ -58,6 +58,17 @@ public class Authorizer {
                             resultSet.getString(5),
                             resultSet.getString(6)
                     );
+                        System.out.println("You have authorized as ADMIN");
+                    ResultSetMetaData rsMetaData = resultSet.getMetaData();
+
+                    System.out.println();
+                    System.out.println("Some sensitive information about each Admin`s data:");
+                    int columnCount = rsMetaData.getColumnCount();
+                    System.out.println("Number of values: " + columnCount);
+
+                    for (int i = 1; i <= columnCount; i++) {
+                        System.out.println(rsMetaData.getColumnName(i) + " (" + rsMetaData.getColumnTypeName(i)+")");
+                    }
                      return new AdminDAO(admin);
                 }
             }
