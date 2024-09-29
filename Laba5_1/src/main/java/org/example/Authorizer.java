@@ -69,6 +69,7 @@ public class Authorizer {
                     for (int i = 1; i <= columnCount; i++) {
                         System.out.println(rsMetaData.getColumnName(i) + " (" + rsMetaData.getColumnTypeName(i)+")");
                     }
+                    System.out.println();
                      return new AdminDAO(admin);
                 }
             }

@@ -24,7 +24,7 @@ public class Main {
 //        Driver driver = new Driver(5,"Vova","Vovcheno","Yuriyevich","2000-10-21", 1.2,"+380983748548");
 //        admin.addDriver(driver);
 //
-//        Car car = new Car(3,"Renault","Logan","black","dizel","universal","AO1232AT",4,300, driver);
+//        Car car = new Car(3,"Renault","Logan","black",2014, "dizel","universal","AO1232AT",4,300, driver);
 //        admin.addCar(car);
 
 //        Order order = new Order(15,8, driver, client.getClient());
@@ -54,7 +54,7 @@ public class Main {
 //        for (ClientDAO c : sortedClients) {
 //            System.out.println(c + " " + c.getOrdersNumber());
 //        }
-
+//
 
 
     }

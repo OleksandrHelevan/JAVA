@@ -11,6 +11,7 @@ public class Car {
     String brand;
     String model;
     String color;
+    int year;
     String fuelType;
     String bodyType;
     String registrationPlate;
@@ -21,11 +22,12 @@ public class Car {
     public Car() {
     }
 
-    public Car(int id, String brand, String model, String color, String fuelType, String bodyType, String registrationPlate, int passengers, int cargo, Driver driver) {
+    public Car(int id, String brand, String model, String color,int year, String fuelType, String bodyType, String registrationPlate, int passengers, int cargo, Driver driver) {
         this.id = id;
         this.brand = brand;
         this.model = model;
         this.color = color;
+        this.year = year;
         this.fuelType = fuelType;
         this.bodyType = bodyType;
         this.registrationPlate = registrationPlate;

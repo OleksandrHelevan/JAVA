@@ -25,6 +25,7 @@ public class Menu {
                         resultSet.getString(2),
                         resultSet.getString(3),
                         resultSet.getString(4),
+                        resultSet.getInt(11),
                         resultSet.getString(5),
                         resultSet.getString(6),
                         resultSet.getString(7),

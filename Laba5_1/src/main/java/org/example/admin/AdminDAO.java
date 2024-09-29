@@ -54,12 +54,11 @@ public class AdminDAO {
         try {
             Connection connection = ConnectorDB.getConnection(configFile);
 
-            String query = "INSERT INTO car ( brand, model, color, registration_plate, fuel_type, body_type, passengers, cargo, Driver_driver_id) " +
-                    "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO car ( brand, model, color, registration_plate, fuel_type, body_type, passengers, cargo, Driver_driver_id, year) " +
+                    "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             try {
-
                 preparedStatement.setString(1, car.getBrand());
                 preparedStatement.setString(2, car.getModel());
                 preparedStatement.setString(3, car.getColor());
@@ -69,6 +68,7 @@ public class AdminDAO {
                 preparedStatement.setInt(7, car.getPassengers());
                 preparedStatement.setInt(8, car.getCargo());
                 preparedStatement.setInt(9, car.getDriver().getId());
+                preparedStatement.setInt(10, car.getYear());
 
                 int result = preparedStatement.executeUpdate();
                 System.out.println("Rows affected: " + result);
