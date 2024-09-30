@@ -63,7 +63,7 @@ public class Menu {
                         resultSet.getString(4),
                         resultSet.getString(5),
                         resultSet.getString(6),
-                        resultSet.getString(7)
+                        resultSet.getInt(7)
                 ));
                 client.setOrderHistory();
                 clients.add(client);

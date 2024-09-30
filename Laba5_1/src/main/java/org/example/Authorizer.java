@@ -23,7 +23,7 @@ public class Authorizer {
                 preparedStatement.setString(3, client.getMiddleName());
                 preparedStatement.setString(4, client.getDateOfBirth());
                 preparedStatement.setString(5, client.getPhoneNumber());
-                preparedStatement.setString(6, client.getPassword());
+                preparedStatement.setInt(6, client.getPassword());
 
                 int result = preparedStatement.executeUpdate();
                 System.out.println("Registration is done " + result);
@@ -40,7 +40,7 @@ public class Authorizer {
     }
 
 
-    public AdminDAO adminAuthorization(String name, String password) throws Exception {
+    public AdminDAO adminAuthorization(String name, int password) throws Exception {
         String configFilename = "C:\\Users\\Admin\\Desktop\\JAVA\\Laba5_1\\src\\main\\resources\\config.properties";
 
         try (Connection connection = ConnectorDB.getConnection(configFilename);
@@ -49,14 +49,14 @@ public class Authorizer {
 
             while (resultSet.next()) {
 
-                if (resultSet.getString(2).equals(name) && resultSet.getString(6).equals(password)) {
+                if (resultSet.getString(2).equals(name) && resultSet.getInt(6) == password) {
                      AdminDTO admin = new AdminDTO(
                             resultSet.getInt(1),
                             resultSet.getString(2),
                             resultSet.getString(3),
                             resultSet.getString(4),
                             resultSet.getString(5),
-                            resultSet.getString(6)
+                            resultSet.getInt(6)
                     );
                         System.out.println("You have authorized as ADMIN");
                     ResultSetMetaData rsMetaData = resultSet.getMetaData();
@@ -80,7 +80,7 @@ public class Authorizer {
         return null;
     }
 
-    public ClientDAO clientAuthorization(String name, String password) throws Exception {
+    public ClientDAO clientAuthorization(String name, int password) throws Exception {
         String configFilename = "C:\\Users\\Admin\\Desktop\\JAVA\\Laba5_1\\src\\main\\resources\\config.properties";
 
         try (Connection connection = ConnectorDB.getConnection(configFilename);
@@ -92,7 +92,7 @@ public class Authorizer {
 
             while (resultSet.next()) {
 
-                if (resultSet.getString(2).equals(name) && resultSet.getString(7).equals(password)) {
+                if (resultSet.getString(2).equals(name) && resultSet.getInt(7) == password) {
                     ClientDTO client = new ClientDTO(
                             resultSet.getInt(1),
                             resultSet.getString(2),
@@ -100,10 +100,11 @@ public class Authorizer {
                             resultSet.getString(4),
                             resultSet.getString(5),
                             resultSet.getString(6),
-                            resultSet.getString(7)
+                            resultSet.getInt(7)
                     );
                     ClientDAO clientDao = new ClientDAO(client);
                     clientDao.setOrderHistory();
+                    System.out.println("You have authorized success");
                     return clientDao;
                 }
             }

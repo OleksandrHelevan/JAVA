@@ -11,15 +11,16 @@ import java.sql.Statement;
 
 @Getter
 public class ClientDTO extends Person {
-    String password;
+    int password;
     String phoneNumber;
 
 
-    public ClientDTO(int id, String name, String surname, String middleName, String dateOfBirth, String phoneNumber, String password){
+    public ClientDTO(int id, String name, String surname, String middleName, String dateOfBirth, String phoneNumber, int password){
         super(id, name, surname, middleName, dateOfBirth);
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
+
 
     static public ClientDTO ClientFromDB(int id) throws Exception {
 
@@ -39,7 +40,7 @@ public class ClientDTO extends Person {
                             resultSet.getString(4),
                             resultSet.getString(5),
                             resultSet.getString(6),
-                            resultSet.getString(7)
+                            resultSet.getInt(7)
                     );
                 }
             }

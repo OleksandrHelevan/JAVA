@@ -1,6 +1,7 @@
 package org.example.admin;
 
 import lombok.Getter;
+import org.example.Car;
 import org.example.*;
 
 import java.sql.Connection;

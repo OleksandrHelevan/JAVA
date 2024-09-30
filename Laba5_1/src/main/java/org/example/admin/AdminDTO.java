@@ -5,9 +5,9 @@ import org.example.Person;
 
 @Getter
 public class AdminDTO extends Person {
-    String password;
+    int password;
 
-    public AdminDTO(int id, String name, String surname, String middleName, String dateOfBirth, String password) {
+    public AdminDTO(int id, String name, String surname, String middleName, String dateOfBirth, int password) {
         super(id, name, surname, middleName, dateOfBirth);
         this.password = password;
     }
