@@ -9,15 +9,14 @@ public class ShoppingThread extends Thread {
     private final Map<Product, Integer> products;
     private final Warehouse warehouse;
     private final Random random;
-    private final ReentrantLock lock;
+    private final ReentrantLock lock = new ReentrantLock();
     private final Market market;
 
-    public ShoppingThread(Client client, Map<Product, Integer> products, Warehouse warehouse, ReentrantLock lock, Market market) {
+    public ShoppingThread(Client client, Map<Product, Integer> products, Warehouse warehouse, Market market) {
         this.client = client;
         this.products = products;
         this.warehouse = warehouse;
         this.random = new Random();
-        this.lock = lock;
         this.market = market;
     }
 

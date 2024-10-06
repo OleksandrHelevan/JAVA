@@ -5,16 +5,14 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Getter
 public class Market {
-    List<Client> clientList;
-    Warehouse warehouse;
-    Random random = new Random();
-    ReentrantLock lock = new ReentrantLock();
+    private final List<Client> clientList;
+    private final Warehouse warehouse;
     private int completedThreads = 0;
+
 
     public Market(List<Client> clientList, Warehouse warehouse) {
         this.clientList = clientList;
@@ -36,7 +34,7 @@ public class Market {
         List<ShoppingThread> threads = new ArrayList<>();
 
         for (Client client : clientList) {
-            ShoppingThread thread = new ShoppingThread(client, products, warehouse, lock, this);
+            ShoppingThread thread = new ShoppingThread(client, products, warehouse, this);
             threads.add(thread);
             thread.start();
         }
