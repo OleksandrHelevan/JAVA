@@ -1,33 +1,33 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
-        ChatRoom chatRoom = new ChatRoom();
+        Map<Product, Integer> products = new HashMap<>();
+        Random random = new Random();
 
-        User alice = new User("Alice", chatRoom.messageQueue);
-        User bob = new User("Bob", chatRoom.messageQueue);
-        User charlie = new User("Charlie", chatRoom.messageQueue);
-        User dave = new User("Dave", chatRoom.messageQueue);
-        User eve = new User("Eve", chatRoom.messageQueue);
-
-        chatRoom.addUser(alice);
-        chatRoom.addUser(bob);
-        chatRoom.addUser(charlie);
-        chatRoom.addUser(dave);
-        chatRoom.addUser(eve);
-
-        chatRoom.broadcastMessage("Hello from Alice!", alice);
-        chatRoom.broadcastMessage("Hi everyone, this is Bob.", bob);
-        chatRoom.broadcastMessage("Charlie here, how's it going?", charlie);
-        chatRoom.broadcastMessage("Dave checking in!", dave);
-        chatRoom.broadcastMessage("Eve says hi!", eve);
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        for (int i = 1; i <= 20; i++) {
+            Product product = new Product("Product " + i, random.nextDouble() * 100);
+            products.put(product, random.nextInt(5)+1);
         }
 
-        chatRoom.stopChat();
+        Warehouse warehouse = new Warehouse(products);
+        List<Client> clients = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            clients.add(new Client("Client " + i));
+        }
+        try{
+        Market market = new Market(clients, warehouse);
+        market.printProducts();
+        market.shopping(products);
+        market.printProducts();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }
