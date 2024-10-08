@@ -5,7 +5,6 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Getter
 public class Market {
@@ -34,7 +33,7 @@ public class Market {
         List<ShoppingThread> threads = new ArrayList<>();
 
         for (Client client : clientList) {
-            ShoppingThread thread = new ShoppingThread(client, products, warehouse, this);
+            ShoppingThread thread = new ShoppingThread(client, products, this);
             threads.add(thread);
             thread.start();
         }

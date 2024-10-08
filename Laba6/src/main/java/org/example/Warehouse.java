@@ -11,6 +11,13 @@ public class Warehouse {
     public Warehouse(Map<Product, Integer> products) {
         this.products = new HashMap<>(products);
     }
+    public int getAmountOfProducts(){
+        int total = 0;
+        for (Map.Entry<Product, Integer> entry : products.entrySet()) {
+            total += entry.getValue();
+        }
+        return total;
+    }
 
     public synchronized boolean searchProduct(Product product) {
         if (products.containsKey(product) && products.get(product) > 0) {
