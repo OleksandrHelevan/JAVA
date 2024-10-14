@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Passport;
 
 
 import com.mongodb.client.*;
@@ -21,7 +21,9 @@ import java.util.logging.Logger;
 public class PassportDAO {
     private List<PassportDTO> passports = new ArrayList<>();
 
-
+    public void clear(){
+       passports.clear();
+    }
     public void setPassportsFromDB() {
         Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
         mongoLogger.setLevel(Level.SEVERE);

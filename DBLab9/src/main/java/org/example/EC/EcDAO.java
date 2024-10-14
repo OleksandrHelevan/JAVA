@@ -1,4 +1,4 @@
-package org.example;
+package org.example.EC;
 
 import com.mongodb.client.*;
 import lombok.AllArgsConstructor;

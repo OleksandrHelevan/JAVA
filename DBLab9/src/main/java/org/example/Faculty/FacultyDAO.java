@@ -1,8 +1,10 @@
-package org.example;
+package org.example.Faculty;
 
 import com.mongodb.client.*;
 import lombok.Getter;
 import org.bson.Document;
+import org.example.Department.DepartmentDAO;
+import org.example.Department.DepartmentDTO;
 
 import java.util.ArrayList;
 import java.util.List;

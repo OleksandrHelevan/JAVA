@@ -1,5 +1,4 @@
-package org.example;
-
+package org.example.SGC;
 import com.mongodb.client.*;
 import lombok.Getter;
 import org.bson.Document;
@@ -10,29 +9,34 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Getter
-public class SpecialtyDAO {
-    private final List<SpecialtyDTO> specialties = new ArrayList<>();
+public class SgcDAO {
+    private final List<SgcDTO> sgcDTOList = new ArrayList<>();
 
 
-    public void setSpecialtiesFromDB(){
+    public void clear(){
+        sgcDTOList.clear();
+    }
+
+    public void setSgcFromDB() {
         Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
         mongoLogger.setLevel(Level.SEVERE);
 
+
         try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
             MongoDatabase database = mongoClient.getDatabase("test");
-            MongoCollection<Document> collection = database.getCollection("Specialty");
+            MongoCollection<Document> collection = database.getCollection("SGC");
 
             FindIterable<Document> documents = collection.find();
             for (Document doc : documents) {
-
                 String id = doc.getObjectId("_id").toString();
-                int code = doc.getInteger("code");
-                String nameOfSpecialty = doc.getString("name_of_specialty");
-                String nameOfCurriculum = doc.getString("name_of_curiculum");
+                double avScore = doc.getDouble("av_score");
+                String honor = doc.getString("honor");
 
-                SpecialtyDTO specialtyDTO = new SpecialtyDTO(id, code, nameOfSpecialty, nameOfCurriculum);
-                specialties.add(specialtyDTO);
+                SgcDTO sgcDTO = new SgcDTO(id, avScore, honor);
+                this.sgcDTOList.add(sgcDTO);
+
             }
+
         }
     }
 }

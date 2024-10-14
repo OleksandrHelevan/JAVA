@@ -1,9 +1,10 @@
-package org.example;
+package org.example.Faculty;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.Department.DepartmentDTO;
 
 import java.util.ArrayList;
 import java.util.List;

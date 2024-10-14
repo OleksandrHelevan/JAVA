@@ -1,10 +1,11 @@
-package org.example;
+package org.example.Department;
 
 import com.mongodb.client.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bson.Document;
+import org.example.Specialty.SpecialtyDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
 public class DepartmentDAO {
     List<DepartmentDTO> departments = new ArrayList<>();
 
-    public static void setSpecialty(DepartmentDTO department ) {
+    public static void setSpecialty(DepartmentDTO department) {
         Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
         mongoLogger.setLevel(Level.SEVERE);
 
@@ -60,7 +61,7 @@ public class DepartmentDAO {
                 String head = doc.getString("head_of_department");
 
                 DepartmentDTO departmentDTO = new DepartmentDTO(id, name, head, new ArrayList<>());
-                this.setSpecialty(departmentDTO);
+                setSpecialty(departmentDTO);
                 this.departments.add(departmentDTO);
 
             }

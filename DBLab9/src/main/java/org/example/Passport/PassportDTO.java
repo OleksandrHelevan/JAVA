@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Passport;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

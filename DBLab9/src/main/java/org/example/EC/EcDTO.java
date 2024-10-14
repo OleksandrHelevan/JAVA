@@ -1,22 +1,18 @@
-package org.example;
-
+package org.example.EC;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SgcDTO {
+public class EcDTO {
     private String id;
     private double avScore;
-    private String honor;
 
     @Override
     public String toString() {
-            return "SGC: " + avScore + " " + honor;
+        return "EC: " + avScore;
     }
 }
