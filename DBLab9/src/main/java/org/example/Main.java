@@ -24,10 +24,12 @@ public class Main {
         String file = "C:\\Users\\Admin\\Desktop\\JAVA\\DBLab9\\src\\main\\java\\org\\example\\Choice.txt";
         int choice = 10;
         while (choice != 0) {
+            line();
+
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    System.out.println(line);
+                String buff;
+                while ((buff = br.readLine()) != null) {
+                    System.out.println(buff);
                 }
 
             } catch (IOException e) {
@@ -91,10 +93,16 @@ public class Main {
                         user.getBudgetApplicants();
                     }
                     case 5: {
+                        line();
+                        user.groupByPlaceOfBirth();
                     }
                     case 6: {
+                        line();
+                        user.groupSpecialtyByApp();
                     }
                     case 7: {
+                        line();
+                        user.groupFacultyByApp();
                     }
                     case 0: {
                         break;

@@ -1,0 +1,8 @@
+1 - To update many SGC average scores VALUE(2) which is lower then VALUE(1)
+2 - To delete passport by PLACE OF BIRTHDAY
+3 - To sort applicants by average score of their EC
+4 - To show applicant who have average score of EC more than 175 (recommended for the budget)
+5 - Group place of birthday by amount applicants with sorting
+6 - Group specialty by amount of applicants with sorting
+7 - Group Department by amount of applicants with sorting
+0 - EXIT
