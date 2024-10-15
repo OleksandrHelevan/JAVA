@@ -5,4 +5,5 @@
 5 - Group place of birthday by amount applicants with sorting
 6 - Group specialty by amount of applicants with sorting
 7 - Group Department by amount of applicants with sorting
+8 - If you are the applicant you may make choice about your specialty
 0 - EXIT

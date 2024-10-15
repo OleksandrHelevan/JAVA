@@ -6,10 +6,16 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import com.mongodb.client.model.Accumulators;
+import org.bson.types.ObjectId;
+import org.example.Applicant.ApplicantDTO;
+import org.example.EC.EcDTO;
+import org.example.Passport.PassportDTO;
+import org.example.SGC.SgcDTO;
+import org.example.Specialty.SpecialtyDTO;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +30,7 @@ public class User {
             MongoDatabase database = mongoClient.getDatabase("test");
             MongoCollection<Document> collection = database.getCollection("SGC");
 
-            UpdateResult result = collection.updateMany(
+            collection.updateMany(
                     Filters.lt("av_score", changeValue),
                     Updates.set("av_score", setValue)
             );
@@ -197,6 +203,119 @@ public class User {
             });
         }
 
+    }
+
+    private void addEC(EcDTO ecDTO){
+        Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
+        mongoLogger.setLevel(Level.SEVERE);
+
+        try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
+            MongoDatabase database = mongoClient.getDatabase("test");
+            MongoCollection<Document> ecCollection = database.getCollection("EC");
+            Document document = new Document("av_score", ecDTO.getAvScore());
+
+            ecCollection.insertOne(document);
+
+            ObjectId objectId = document.getObjectId("_id");
+            ecDTO.setId(objectId.toString());
+
+        }
+    }
+
+    public void addPassport(PassportDTO passportDTO) {
+        Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
+        mongoLogger.setLevel(Level.SEVERE);
+
+        try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
+            MongoDatabase database = mongoClient.getDatabase("test");
+            MongoCollection<Document> collection = database.getCollection("Passport");
+
+            SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+            Document document = new Document()
+                    .append("date_of_birthday", isoFormat.format(passportDTO.getDateOfBirth()))
+                    .append("place_of_birthday", passportDTO.getPlaceOfBirthday())
+                    .append("sex", passportDTO.getSex());
+
+            collection.insertOne(document);
+
+            ObjectId objectId = document.getObjectId("_id");
+            passportDTO.setId(objectId.toString());
+        } catch (Exception e) {
+            System.out.println("Error while adding passport: " + e.getMessage());
+        }
+    }
+
+    private void addSGC(SgcDTO sgcDTO) {
+        Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
+        mongoLogger.setLevel(Level.SEVERE);
+
+        try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
+            MongoDatabase database = mongoClient.getDatabase("test");
+            MongoCollection<Document> collection = database.getCollection("SGC");
+            Document document = new Document()
+                    .append("av_score",sgcDTO.getAvScore())
+                    .append("honor", sgcDTO.getHonor());
+
+            collection.insertOne(document);
+
+            ObjectId objectId = document.getObjectId("_id");
+            sgcDTO.setId(objectId.toString());
+        }
+    }
+
+
+    public SpecialtyDTO findSpecialty(int code){
+        Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
+        mongoLogger.setLevel(Level.SEVERE);
+
+        try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
+            MongoDatabase database = mongoClient.getDatabase("test");
+            MongoCollection<Document> collection = database.getCollection("Specialty");
+
+            Document query = new Document("code", code);
+            Document result = collection.find(query).first();
+
+            if (result != null) {
+                String id = result.getObjectId("_id").toString();
+                int specialtyCode = result.getInteger("code");
+                String nameOfSpecialty = result.getString("name_of_specialty");
+                String nameOfCurriculum = result.getString("name_of_curiculum");
+
+                return new SpecialtyDTO(id, specialtyCode, nameOfSpecialty, nameOfCurriculum);
+            }
+        }
+        return null;
+    }
+
+    public void addApplicant(ApplicantDTO applicantDTO){
+        Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
+        mongoLogger.setLevel(Level.SEVERE);
+
+//        try{
+//        if(applicantDTO.getSpecialty() == null)
+//            throw new RuntimeException("Specialty is null");
+
+        try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
+            MongoDatabase database = mongoClient.getDatabase("test");
+            MongoCollection<Document> collection = database.getCollection("Applicant");
+
+            addEC(applicantDTO.getEc());
+            addPassport(applicantDTO.getPassport());
+            addSGC(applicantDTO.getSgc());
+
+            Document applicantDocument = new Document("name", applicantDTO.getName())
+                    .append("surname", applicantDTO.getSurname())
+                    .append("ec_id", new ObjectId(applicantDTO.getEc().getId()))
+                    .append("passport_id", new ObjectId(applicantDTO.getPassport().getId()))
+                    .append("sgc_id", new ObjectId(applicantDTO.getSgc().getId()))
+                    .append("specialty_id", new ObjectId(applicantDTO.getSpecialty().getId()));
+
+            collection.insertOne(applicantDocument);
+        }
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+//        }
     }
 
 }

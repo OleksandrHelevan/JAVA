@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
@@ -16,6 +18,7 @@ public class PassportDTO {
     private Date dateOfBirth;
     private String placeOfBirthday;
     private String sex;
+
 
     @Override
     public String toString() {
