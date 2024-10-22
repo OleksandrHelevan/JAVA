@@ -1,14 +1,10 @@
 package org.example;
 
-import lombok.Data;
 import org.example.Applicant.ApplicantDTO;
 import org.example.EC.EcDTO;
-import org.example.Passport.PassportDAO;
-import org.example.Passport.PassportDTO;
-import org.example.SGC.SgcDAO;
-import org.example.SGC.SgcDTO;
-import org.example.Specialty.SpecialtyDAO;
-import org.example.Specialty.SpecialtyDTO;
+import org.example.Passport.*;
+import org.example.SGC.*;
+import org.example.Specialty.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

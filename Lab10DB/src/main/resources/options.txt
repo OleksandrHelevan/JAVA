@@ -1,0 +1,10 @@
+Select an option:
+1. Create Specialty
+2. Create Passport
+3. Create SGC
+4. Create Applicant
+5. Read by key
+6. Update Specialty
+7. Update Passport
+8. Delete by key
+0. Exit
