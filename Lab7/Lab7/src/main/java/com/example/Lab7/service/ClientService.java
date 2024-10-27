@@ -24,5 +24,6 @@ public class ClientService {
    }
    public void addOrder(Order order) {
         clientRepository.addOrder(order);
+        System.out.println("Order added: " + order);
    }
 }

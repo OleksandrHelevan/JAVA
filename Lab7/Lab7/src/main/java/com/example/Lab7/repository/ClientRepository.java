@@ -3,23 +3,25 @@ package com.example.Lab7.repository;
 import com.example.Lab7.model.Client;
 import com.example.Lab7.model.Order;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
 public class ClientRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    @Autowired
+    private ApplicationContext context;
 
     private final RowMapper<Client> clientRowMapper = (rs, rowNum) -> {
-        Client client = new Client();
+        Client client = context.getBean(Client.class);
         client.setId(rs.getInt("client_id"));
         client.setName(rs.getString("name"));
         client.setSurname(rs.getString("surname"));

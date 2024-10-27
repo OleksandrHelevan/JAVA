@@ -3,6 +3,8 @@ package com.example.Lab7.repository;
 import com.example.Lab7.model.Order;
 import com.example.Lab7.model.Driver;
 import com.example.Lab7.model.Client;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,9 +17,11 @@ import java.util.List;
 public class OrderRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    @Autowired
+    private ApplicationContext context;
 
     private final RowMapper<Order> orderRowMapper = (rs, rowNum) -> {
-        Driver driver = new Driver();
+        Driver driver = context.getBean(Driver.class);
         driver.setId(rs.getInt("driver_id"));
         driver.setName(rs.getString("driver_name"));
         driver.setSurname(rs.getString("driver_surname"));
@@ -26,7 +30,7 @@ public class OrderRepository {
         driver.setDrivingExperience(rs.getDouble("driver_experience"));
         driver.setPhoneNumber(rs.getString("driver_phone_number"));
 
-        Client client = new Client();
+        Client client = context.getBean(Client.class);
         client.setId(rs.getInt("client_id"));
         client.setName(rs.getString("client_name"));
         client.setSurname(rs.getString("client_surname"));

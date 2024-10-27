@@ -16,7 +16,7 @@ public class CarRepository {
     private final JdbcTemplate jdbcTemplate;
 
     private final RowMapper<Car> carRowMapper = (rs, rowNum) -> {
-        Driver driver = new Driver(); // заповнити дані водія
+        Driver driver = new Driver();
         driver.setId(rs.getInt("driver_id"));
         driver.setName(rs.getString("driver_name"));
         driver.setSurname(rs.getString("driver_surname"));

@@ -12,8 +12,8 @@ public class Lab7Application {
     public static void main(String[] args){
         ApplicationContext context = SpringApplication.run(Lab7Application.class, args);
 
-        OrderService orderService = context.getBean(OrderService.class);
-        orderService.getOrders().forEach(System.out::println);
+//        OrderService orderService = context.getBean(OrderService.class);
+//        orderService.getOrders().forEach(System.out::println);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.Lab7.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,9 +15,11 @@ import java.util.List;
 public class DriverRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    @Autowired
+    private ApplicationContext context;
 
     private final RowMapper<Driver> driverRowMapper = (rs, rowNum)->{
-        Driver driver = new Driver();
+        Driver driver = context.getBean(Driver.class);
         driver.setId(rs.getInt("driver_id"));
         driver.setName(rs.getString("name"));
         driver.setSurname(rs.getString("surname"));
