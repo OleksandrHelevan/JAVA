@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HashRecorder {
-    private static final String REDIS_HOST = "localhost";
-    private static final int REDIS_PORT = 6379;
+    private static final String host = "localhost";
+    private static final int port = 6379;
 
     private final Jedis jedis;
 
     public HashRecorder() {
-        jedis = new Jedis(REDIS_HOST, REDIS_PORT);
+        jedis = new Jedis(host, port);
     }
 
     public void createPassport(String id, String dateOfBirth, String placeOfBirth, String sex) {
@@ -41,6 +41,7 @@ public class HashRecorder {
         specialtyData.put("department", department);
         jedis.hset("Specialty:" + code, specialtyData);
     }
+
     public void createApplicant(String name, String surname, String passportId, String ecId, String sgcId, String specialtyCode) {
         Map<String, String> applicant = new HashMap<>();
         applicant.put("name", name);
