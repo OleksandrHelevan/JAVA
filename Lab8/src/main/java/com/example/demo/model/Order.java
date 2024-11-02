@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name = "`order`", schema = "taxi_db")
 public class Order {
 
     @Id
@@ -17,7 +17,7 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @Column (name="distance")
+    @Column(name = "distance")
     private Double distance;
 
     @ManyToOne(cascade = CascadeType.ALL)

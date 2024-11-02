@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table (name= "car", schema = "taxi_db")
+@Table(name = "car", schema = "taxi_db")
 public class Car {
 
     @Id
@@ -18,34 +18,34 @@ public class Car {
     @Column(name = "car_id")
     private Long id;
 
-    @Column (name="brand")
+    @Column(name = "brand")
     private String brand;
 
-    @Column (name= "model")
+    @Column(name = "model")
     private String model;
 
-    @Column (name = "color")
+    @Column(name = "color")
     private String color;
 
-    @Column (name = "registration_plate")
+    @Column(name = "registration_plate")
     private String registrationPlate;
 
-    @Column (name = "fuel_type")
+    @Column(name = "fuel_type")
     private String fuelType;
 
-    @Column (name = "body_type")
+    @Column(name = "body_type")
     private String bodyType;
 
-    @Column (name = "passengers")
+    @Column(name = "passengers")
     private Byte passengers;
 
-    @Column (name = "cargo")
+    @Column(name = "cargo")
     private Double cargo;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "Driver_driver_id")
     private Driver driver;
 
-    @Column (name = "year")
+    @Column(name = "year")
     private Integer year;
 }

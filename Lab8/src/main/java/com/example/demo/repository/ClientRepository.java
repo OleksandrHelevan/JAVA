@@ -4,7 +4,7 @@ import com.example.demo.model.Client;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
