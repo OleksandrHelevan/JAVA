@@ -1,5 +1,6 @@
 package com.example.Lab7;
 
+import com.example.Lab7.model.Driver;
 import com.example.Lab7.model.Order;
 import com.example.Lab7.service.ClientService;
 import com.example.Lab7.service.DriverService;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 
 @Controller
@@ -30,20 +33,23 @@ public class TaxiController {
 
     }
 
-@RequestMapping("/make")
-public String makeOrder(@RequestParam("name") String name,
-                        @RequestParam("surname") String surname,
-                        @RequestParam("middleName") String middleName,
-                        @RequestParam("dateOfBirth") String dateOfBirth,
-                        @RequestParam("phoneNumber") String phoneNumber,
-                        @RequestParam("password") String password, Model model) {
+    @RequestMapping("/make")
+    public String makeOrder(@RequestParam("name") String name,
+                            @RequestParam("surname") String surname,
+                            @RequestParam("middleName") String middleName,
+                            @RequestParam("dateOfBirth") String dateOfBirth,
+                            @RequestParam("phoneNumber") String phoneNumber,
+                            @RequestParam("password") String password, Model model) {
 
         Client client = new Client(name, surname, middleName, dateOfBirth, phoneNumber, password);
-   clientService.addClient(client);
-   clientService.setClientId(client);
-    model.addAttribute("clientId",client.getId());
-    return "make-order.jsp";
-}
+        clientService.addClient(client);
+        clientService.setClientId(client);
+        List<Driver> drivers = driverService.getAllDrivers();
+        model.addAttribute("drivers", drivers);
+        model.addAttribute("clientId", client.getId());
+        return "make-order.jsp";
+    }
+
     @RequestMapping("/made")
     public String madeOrder(@RequestParam("distance") Double distance,
                             @RequestParam("driverId") Integer driverId,

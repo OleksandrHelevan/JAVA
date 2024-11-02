@@ -5,6 +5,7 @@ import org.example.springjdbcdemo.model.Student;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,6 @@ public class StudentRepository {
 
     public void save(Student student) {
         String sql = "insert into students (first_name, last_name, age) values(?,?,?)";
-        /* shortened name for executeUpdate */
         int rowsAffected = jdbcTemplate.update(sql, student.getFirstName(), student.getLastName(), student.getAge());
         System.out.println("rowsAffected: " + rowsAffected);
     }
@@ -38,12 +38,12 @@ public class StudentRepository {
 
     public Map<Student, Map<String, Double>> getStudentsWithCoursesAboveGrade(double minGrade) {
         String sql = """
-        SELECT DISTINCT s.id, s.first_name, s.last_name, s.age, sc.grade, c.course_name
-        FROM students s
-        JOIN student_courses sc ON s.id = sc.student_id
-        JOIN courses c ON c.id = sc.course_id
-        WHERE sc.grade > ?
-        """;
+                SELECT DISTINCT s.id, s.first_name, s.last_name, s.age, sc.grade, c.course_name
+                FROM students s
+                JOIN student_courses sc ON s.id = sc.student_id
+                JOIN courses c ON c.id = sc.course_id
+                WHERE sc.grade > ?
+                """;
 
         Map<Student, Map<String, Double>> resultMap = new HashMap<>();
 
@@ -61,11 +61,11 @@ public class StudentRepository {
 
     public Map<Student, Double> getAverageGradeForStudents() {
         String sql = """
-        SELECT s.id, s.first_name, s.last_name, s.age, AVG(sc.grade) AS avg_grade
-        FROM students s
-        JOIN student_courses sc ON s.id = sc.student_id
-        GROUP BY s.id, s.first_name, s.last_name
-        """;
+                SELECT s.id, s.first_name, s.last_name, s.age, AVG(sc.grade) AS avg_grade
+                FROM students s
+                JOIN student_courses sc ON s.id = sc.student_id
+                GROUP BY s.id, s.first_name, s.last_name
+                """;
 
         Map<Student, Double> resultMap = new HashMap<>();
 
@@ -82,11 +82,11 @@ public class StudentRepository {
 
     public List<Student> getStudentsWithPagination(int limit, int offset) {
         String sql = """
-        SELECT id, first_name, last_name, age
-        FROM students
-        ORDER BY last_name
-        LIMIT ? OFFSET ?
-        """;
+                SELECT id, first_name, last_name, age
+                FROM students
+                ORDER BY last_name
+                LIMIT ? OFFSET ?
+                """;
 
         return jdbcTemplate.query(sql, new Object[]{limit, offset}, studentRowMapper);
     }

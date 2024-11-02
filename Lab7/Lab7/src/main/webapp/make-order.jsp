@@ -1,15 +1,18 @@
-<%--<jsp:useBean id="order" scope="request" type=""/>--%>
-<%@page language="java" %>
+<%--<jsp:useBean id="driver" scope="request" type="com.example.Lab7.model.Driver"/>--%>
+<%@page language="java" %>x
 <html>
     <head>
         <link rel="stylesheet" href="style-make.css">
         <title>Taxi</title>
     </head>
     <body>
+<%--    <div class="driver-list">--%>
+<%--        <c:forEach var="driver">--%>
+<%--        </c:forEach>--%>
+<%--    </div>--%>
     <div class="make-order-block">
         <h2>Make order</h2>
         <form action="made">
-
 
             <label for="distance"> Distance: </label>
             <input type="text" id="distance" name="distance"/> <br/>
