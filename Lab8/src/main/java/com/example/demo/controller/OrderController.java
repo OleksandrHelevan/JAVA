@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Order;
+import com.example.demo.mapper.OrderMapper;
+import com.example.demo.model.OrderDTO;
 import com.example.demo.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,86 +22,75 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
         logger.info("Fetching all orders");
-        List<Order> orders = orderService.findAll();
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        List<OrderDTO> orders = orderService.findAll();
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id) {
         logger.info("Fetching order with ID: {}", id);
-        Order order = orderService.findOrderById(id);
-        if (order != null) {
-            return new ResponseEntity<>(order, HttpStatus.OK);
+        OrderDTO orderDTO = orderService.findOrderById(id);
+        if (orderDTO != null) {
+            return ResponseEntity.ok(orderDTO);
         } else {
             logger.error("Order with ID: {} not found", id);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
+    public ResponseEntity<OrderDTO> updateOrder(@PathVariable Long id, @RequestBody OrderDTO orderDTO) {
         logger.info("Updating order with ID: {}", id);
-        Order updatedOrder = orderService.updateOrder(id, order);
+        orderDTO.setId(id.intValue());
+        OrderDTO updatedOrder = orderService.updateOrder(id, orderDTO);
         if (updatedOrder != null) {
-            return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
+            return ResponseEntity.ok(updatedOrder);
         } else {
             logger.error("Order with ID: {} not found for update", id);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Order> addOrder(@RequestBody Order order) {
+    public ResponseEntity<OrderDTO> addOrder(@RequestBody OrderDTO orderDTO) {
         logger.info("Adding new order");
-        Order savedOrder = orderService.addOrder(order);
-        return new ResponseEntity<>(savedOrder, HttpStatus.CREATED);
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<Order> updateOrderById(@PathVariable Long id, @RequestBody Order order) {
-        logger.info("Partially updating order with ID: {}", id);
-        Order updatedOrder = orderService.updateOrder(id, order);
-        if (updatedOrder != null) {
-            return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
-        } else {
-            logger.error("Order with ID: {} not found for partial update", id);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        OrderDTO savedOrder = orderService.addOrder(orderDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         logger.info("Deleting order with ID: {}", id);
-        if (orderService.findOrderById(id) == null) {
-            logger.error("Order with ID: {} not found for deletion", id);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
+        if (orderService.findOrderById(id) != null) {
             orderService.cancelOrder(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build();
+        } else {
+            logger.error("Order with ID: {} not found for deletion", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @GetMapping("/client/{clientId}")
-    public ResponseEntity<List<Order>> getOrdersByClientId(@PathVariable Long clientId) {
+    public ResponseEntity<List<OrderDTO>> getOrdersByClientId(@PathVariable Long clientId) {
         logger.info("Fetching orders for client with ID: {}", clientId);
-        List<Order> orders = orderService.findByClientId(clientId);
+        List<OrderDTO> orders = orderService.findByClientId(clientId);
         if (orders.isEmpty()) {
             logger.error("No orders found for client with ID: {}", clientId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/driver/{driverId}")
-    public ResponseEntity<List<Order>> getOrdersByDriverId(@PathVariable Long driverId) {
+    public ResponseEntity<List<OrderDTO>> getOrdersByDriverId(@PathVariable Long driverId) {
         logger.info("Fetching orders for driver with ID: {}", driverId);
-        List<Order> orders = orderService.findByDriverId(driverId);
+        List<OrderDTO> orders = orderService.findByDriverId(driverId);
         if (orders.isEmpty()) {
             logger.error("No orders found for driver with ID: {}", driverId);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        return ResponseEntity.ok(orders);
     }
 }

@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Order;
+import com.example.demo.entity.Order;
+import com.example.demo.mapper.OrderMapper;
+import com.example.demo.model.OrderDTO;
 import com.example.demo.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,38 +21,52 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private OrderMapper orderMapper;
+
     @Transactional
-    public Order findOrderById(Long id) {
-        return orderRepository.findOrderById(id).orElse(null);
+    public OrderDTO findOrderById(Long id) {
+        Order order = orderRepository.findById(id).orElse(null);
+        return orderMapper.toDto(order);
     }
 
     @Transactional
-    public List<Order> findByClientId(Long clientId) {
-        return orderRepository.findByClientId(clientId);
+    public List<OrderDTO> findByClientId(Long clientId) {
+        return orderRepository.findByClientId(clientId).stream()
+                .map(orderMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public List<Order> findByDriverId(Long driverId) {
-        return orderRepository.findByDriverId(driverId);
+    public List<OrderDTO> findByDriverId(Long driverId) {
+        return orderRepository.findByDriverId(driverId).stream()
+                .map(orderMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public Order updateOrder(Long id, Order order) {
-        return orderRepository.updateOrder(id, order).orElse(null);
+    public OrderDTO updateOrder(Long id, OrderDTO orderDTO) {
+        Order order = orderMapper.toEntity(orderDTO);
+        Order updatedOrder = orderRepository.save(order);
+        return orderMapper.toDto(updatedOrder);
     }
 
     @Transactional
     public void cancelOrder(Long orderId) {
-        orderRepository.cancelOrder(orderId);
+        orderRepository.deleteById(orderId);
     }
 
     @Transactional
-    public List<Order> findAll() {
-        return orderRepository.findAll();
+    public List<OrderDTO> findAll() {
+        return orderRepository.findAll().stream()
+                .map(orderMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public Order addOrder(Order order) {
-        return orderRepository.addOrder(order);
+    public OrderDTO addOrder(OrderDTO orderDTO) {
+        Order order = orderMapper.toEntity(orderDTO);
+        Order savedOrder = orderRepository.save(order);
+        return orderMapper.toDto(savedOrder);
     }
 }

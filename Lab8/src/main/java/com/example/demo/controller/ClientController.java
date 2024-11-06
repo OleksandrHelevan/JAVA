@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Client;
+import com.example.demo.model.ClientDTO;
 import com.example.demo.service.ClientService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,17 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<List<Client>> getAllClients() {
+    public ResponseEntity<List<ClientDTO>> getAllClients() {
         logger.info("Fetching all clients");
-        List<Client> clients = clientService.findAll();
+        List<ClientDTO> clients = clientService.findAll();
         logger.info("Found {} clients", clients.size());
         return new ResponseEntity<>(clients, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable Long id) {
+    public ResponseEntity<ClientDTO> getClientById(@PathVariable Long id) {
         logger.info("Fetching client with id {}", id);
-        Client client = clientService.findById(id);
+        ClientDTO client = clientService.findById(id);
         if (client != null) {
             logger.info("Found client: {}", client);
             return new ResponseEntity<>(client, HttpStatus.OK);
@@ -41,10 +42,25 @@ public class ClientController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable Long id, @RequestBody ClientDTO clientDTO) {
+        logger.info("Updating client {}", clientDTO);
+        clientDTO.setId(id);
+        ClientDTO updatedClient = clientService.save(clientDTO);
+        if (updatedClient != null) {
+            logger.info("Updated client: {}", updatedClient);
+            return new ResponseEntity<>(updatedClient, HttpStatus.OK);
+        } else {
+            logger.warn("Client with id {} not found for update", id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PatchMapping("/{id}")
-    public ResponseEntity<Client> updateClientById(@PathVariable Long id, @RequestBody Client client) {
+    public ResponseEntity<ClientDTO> updateClientById(@PathVariable Long id, @RequestBody ClientDTO clientDTO) {
         logger.info("Updating client with id {}", id);
-        Client updatedClient = clientService.update(id, client);
+        clientDTO.setId(id);
+        ClientDTO updatedClient = clientService.update(clientDTO);
         if (updatedClient != null) {
             logger.info("Updated client: {}", updatedClient);
             return new ResponseEntity<>(updatedClient, HttpStatus.OK);
@@ -55,25 +71,11 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<Client> addClient(@RequestBody Client client) {
-        logger.info("Adding new client: {}", client);
-        Client savedClient = clientService.save(client);
+    public ResponseEntity<ClientDTO> addClient(@Valid @RequestBody ClientDTO clientDTO) {
+        logger.info("Adding new client: {}", clientDTO);
+        ClientDTO savedClient = clientService.save(clientDTO);
         logger.info("Saved client: {}", savedClient);
         return new ResponseEntity<>(savedClient, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Client> updateCurrentClient(@PathVariable Long id, @RequestBody Client updatedClient) {
-        logger.info("Updating current client with id {}", id);
-        Client existingClient = clientService.findById(id);
-        if (existingClient != null) {
-            updatedClient.setId(id);
-            Client savedClient = clientService.save(updatedClient);
-            logger.info("Updated existing client: {}", savedClient);
-            return new ResponseEntity<>(savedClient, HttpStatus.OK);
-        }
-        logger.warn("Client with id {} not found for update", id);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
