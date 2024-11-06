@@ -4,7 +4,6 @@ import com.example.DBLab11.dto.ApplicantDTO;
 import com.example.DBLab11.mapper.ApplicantMapper;
 import com.example.DBLab11.model.Applicant;
 import com.example.DBLab11.repository.ApplicantRepository;
-import com.mongodb.util.JSON;
 import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -65,7 +64,7 @@ public class ApplicantService {
         return null;
     }
 
-    public boolean delete(String id) {
+    public boolean remove(String id) {
         if (applicantRepository.existsById(id)) {
             applicantRepository.deleteById(id);
             return true;

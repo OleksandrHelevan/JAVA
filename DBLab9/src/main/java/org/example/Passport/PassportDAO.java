@@ -1,6 +1,5 @@
 package org.example.Passport;
 
-
 import com.mongodb.client.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
