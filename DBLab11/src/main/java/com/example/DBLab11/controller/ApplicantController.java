@@ -42,7 +42,7 @@ public class ApplicantController {
         return new ResponseEntity<>(applicantService.update(id, applicantDTO), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/ap")
     public ResponseEntity<ApplicantDTO> addApplicant(@RequestBody ApplicantDTO applicantDTO) {
         return new ResponseEntity<>(applicantService.save(applicantDTO), HttpStatus.CREATED);
     }
